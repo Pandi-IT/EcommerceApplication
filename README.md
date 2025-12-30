@@ -130,6 +130,37 @@ Frontend will start on: `http://localhost:5173`
 - **Frontend:** http://localhost:5173
 - **Backend API:** http://localhost:8080/api
 
+## 🚀 Deployment
+
+### 🆓 Free Deployment (Recommended)
+**Deploy your app 100% FREE in 10 minutes!**
+
+- **[DEPLOY_FREE_STEPS.md](./DEPLOY_FREE_STEPS.md)** - Step-by-step Railway deployment (easiest)
+- **[FREE_DEPLOYMENT.md](./FREE_DEPLOYMENT.md)** - All free hosting options (Railway, Render, Vercel, Fly.io)
+
+### Quick Deployment
+- **[QUICK_DEPLOY.md](./QUICK_DEPLOY.md)** - Fast deployment guide
+
+### Full Deployment Guide
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Comprehensive guide including:
+  - Railway, Render, Vercel deployment
+  - Docker containerization
+  - Traditional VPS setup (AWS EC2, DigitalOcean)
+  - Environment variables configuration
+  - Post-deployment checklist
+
+### Docker Deployment
+```bash
+# Start all services (Backend + Frontend + MySQL)
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+```
+
 ## 📖 API Documentation
 
 ### Authentication Endpoints
@@ -224,3 +255,7 @@ If you have any questions or issues, please create an issue in the GitHub reposi
 ---
 
 **Happy Shopping! 🛒✨**
+
+
+
+

@@ -31,7 +31,21 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(java.util.Arrays.asList("http://localhost:*"));
+        
+        // Get allowed origins from environment variable or use defaults
+        String allowedOrigins = System.getenv("CORS_ALLOWED_ORIGINS");
+        if (allowedOrigins != null && !allowedOrigins.isEmpty()) {
+            configuration.setAllowedOriginPatterns(java.util.Arrays.asList(allowedOrigins.split(",")));
+        } else {
+            // Default: allow localhost for development and common production patterns
+            configuration.setAllowedOriginPatterns(java.util.Arrays.asList(
+                "http://localhost:*",
+                "https://*.railway.app",
+                "https://*.vercel.app",
+                "https://*.render.com"
+            ));
+        }
+        
         configuration.setAllowedMethods(java.util.Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(java.util.Arrays.asList("*"));
         configuration.setAllowCredentials(true);
