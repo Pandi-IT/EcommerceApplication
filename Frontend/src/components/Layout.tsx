@@ -210,8 +210,44 @@ const Layout = ({ children }) => {
       {/* Footer */}
       <footer className="bg-white border-t mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-          <div className="text-center text-gray-500 text-sm sm:text-base">
-            <p>&copy; 2024 Ecommerce App. All rights reserved.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Company Info */}
+            <div className="text-center md:text-left">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Ecommerce App</h3>
+              <p className="text-gray-600 text-sm">
+                Your trusted marketplace for quality products from verified sellers.
+              </p>
+            </div>
+
+            {/* Contact Info */}
+            <div className="text-center md:text-center">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Contact Us</h3>
+              <div className="space-y-1 text-sm text-gray-600">
+                <p>
+                  <span className="font-medium">Phone:</span>{' '}
+                  <a href="tel:+919751705991" className="hover:text-blue-600 transition-colors">
+                    +91 9751705991
+                  </a>
+                </p>
+                <p>
+                  <span className="font-medium">Email:</span>{' '}
+                  <a href="mailto:pandiyarajan1204@gmail.com" className="hover:text-blue-600 transition-colors">
+                    pandiyarajan1204@gmail.com
+                  </a>
+                </p>
+                <p>
+                  <span className="font-medium">Location:</span>{' '}
+                  Virudhunagar, India-626005
+                </p>
+              </div>
+            </div>
+
+            {/* Copyright */}
+            <div className="text-center md:text-right">
+              <p className="text-gray-500 text-sm">
+                &copy; 2024 Ecommerce App. All rights reserved.
+              </p>
+            </div>
           </div>
         </div>
       </footer>
