@@ -32,18 +32,18 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Allow all localhost origins for development
-        configuration.setAllowedOriginPatterns(java.util.Arrays.asList(
-            "http://localhost:*",
-            "http://127.0.0.1:*",
-            "https://*.railway.app",
-            "https://*.vercel.app",
-            "https://*.render.com"
+        // Allow specific origins for development
+        configuration.setAllowedOrigins(java.util.Arrays.asList(
+            "http://localhost",
+            "http://localhost:80",
+            "http://127.0.0.1",
+            "http://127.0.0.1:80"
         ));
 
         configuration.setAllowedMethods(java.util.Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(java.util.Arrays.asList("*"));
         configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L); // Cache preflight for 1 hour
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
