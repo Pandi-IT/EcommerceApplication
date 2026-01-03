@@ -4,10 +4,12 @@ import com.example.ecommerce.dto.ProductDTO;
 import com.example.ecommerce.entity.Product;
 import com.example.ecommerce.entity.Role;
 import com.example.ecommerce.entity.User;
+import com.example.ecommerce.repository.OrderRepository;
 import com.example.ecommerce.repository.ProductRepository;
 import com.example.ecommerce.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -19,6 +21,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
 
     public List<ProductDTO> getAllProducts() {
         return productRepository.findAll().stream()
@@ -43,35 +46,56 @@ public class ProductService {
         Product product = new Product();
         product.setName(productDTO.getName());
         product.setPrice(productDTO.getPrice());
+        product.setDescription(productDTO.getDescription());
+        product.setImageUrl(productDTO.getImageUrl());
         product.setSeller(seller);
 
         Product savedProduct = productRepository.save(product);
         return convertToDTO(savedProduct);
     }
 
+    @Transactional
     public ProductDTO updateProduct(Long productId, ProductDTO productDTO, String sellerEmail) {
-        Product product = productRepository.findById(productId)
+        // Fetch product with seller eagerly to avoid lazy loading issues
+        Product product = productRepository.findByIdWithSeller(productId)
                 .orElseThrow(() -> new NoSuchElementException("Product not found"));
 
         // Check if the seller owns this product
-        if (!product.getSeller().getEmail().equals(sellerEmail)) {
+        if (product.getSeller() == null || !product.getSeller().getEmail().equals(sellerEmail)) {
             throw new IllegalArgumentException("You can only update your own products");
         }
 
         product.setName(productDTO.getName());
         product.setPrice(productDTO.getPrice());
+        if (productDTO.getDescription() != null) {
+            product.setDescription(productDTO.getDescription());
+        }
+        if (productDTO.getImageUrl() != null) {
+            product.setImageUrl(productDTO.getImageUrl());
+        }
 
         Product updatedProduct = productRepository.save(product);
         return convertToDTO(updatedProduct);
     }
 
+    @Transactional
     public void deleteProduct(Long productId, String sellerEmail) {
-        Product product = productRepository.findById(productId)
+        // Fetch product with seller eagerly to avoid lazy loading issues
+        Product product = productRepository.findByIdWithSeller(productId)
                 .orElseThrow(() -> new NoSuchElementException("Product not found"));
 
         // Check if the seller owns this product
-        if (!product.getSeller().getEmail().equals(sellerEmail)) {
+        if (product.getSeller() == null || !product.getSeller().getEmail().equals(sellerEmail)) {
             throw new IllegalArgumentException("You can only delete your own products");
+        }
+
+        // Check if product has any orders - cannot delete products that have been ordered
+        long orderCount = orderRepository.countOrdersByProductId(productId);
+        if (orderCount > 0) {
+            throw new IllegalStateException(
+                String.format("Cannot delete product '%s' because it has %d order(s). Products with existing orders cannot be deleted to maintain order history integrity.", 
+                    product.getName(), orderCount)
+            );
         }
 
         productRepository.delete(product);
@@ -91,12 +115,7 @@ public class ProductService {
                 .orElseThrow(() -> new NoSuchElementException("Seller not found"));
 
         return productRepository.findBySeller(seller).stream()
-                .map(product -> {
-                    ProductDTO dto = convertToDTO(product);
-                    // Temporarily set order count to 0 until we fix the query
-                    dto.setOrderCount(0L);
-                    return dto;
-                })
+                .map(this::convertToDTOWithOrderStats)
                 .collect(Collectors.toList());
     }
 
@@ -121,6 +140,8 @@ public class ProductService {
         dto.setId(product.getId());
         dto.setName(product.getName());
         dto.setPrice(product.getPrice());
+        dto.setDescription(product.getDescription());
+        dto.setImageUrl(product.getImageUrl());
         dto.setSellerId(product.getSeller() != null ? product.getSeller().getId() : null);
         return dto;
     }

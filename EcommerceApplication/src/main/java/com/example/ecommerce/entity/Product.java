@@ -27,6 +27,12 @@ public class Product {
     @DecimalMin(value = "0.01", message = "Price must be greater than 0")
     private BigDecimal price;
 
+    @Column(length = 1000)
+    private String description;
+
+    @Column(length = 500)
+    private String imageUrl;
+
     // Many-to-one relationship with User (seller)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")

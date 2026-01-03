@@ -8,6 +8,8 @@ public class ProductDTO {
     private Long id;
     private String name;
     private BigDecimal price;
+    private String description;
+    private String imageUrl;
     private Long sellerId;
     private Long orderCount;
 }

@@ -73,6 +73,26 @@ const SellerRoute = ({ children }) => {
   return children;
 };
 
+// Block sellers from accessing buyer routes
+const BlockSellerRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  // If user is a seller, redirect to seller dashboard
+  if (user && user.role === 'SELLER') {
+    return <Navigate to="/seller" replace />;
+  }
+
+  return children;
+};
+
 // Home Page Component
 const Home = () => {
   const { user } = useAuth();
@@ -141,8 +161,22 @@ const AppContent = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/products/:id" element={<ProductDetail />} />
+        <Route 
+          path="/products" 
+          element={
+            <BlockSellerRoute>
+              <Products />
+            </BlockSellerRoute>
+          } 
+        />
+        <Route 
+          path="/products/:id" 
+          element={
+            <BlockSellerRoute>
+              <ProductDetail />
+            </BlockSellerRoute>
+          } 
+        />
         <Route
           path="/cart"
           element={
