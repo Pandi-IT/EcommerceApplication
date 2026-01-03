@@ -176,12 +176,17 @@ const SellerDashboard = () => {
         </button>
       </div>
 
-      {/* Add/Edit Product Form */}
+        {/* Add/Edit Product Form */}
       {showAddForm && (
-        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
-            {editingProduct ? 'Edit Product' : 'Add New Product'}
-          </h2>
+        <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 mb-12 border border-gray-100">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+              {editingProduct ? '✏️ Edit Product' : '🚀 Add New Product'}
+            </h2>
+            <p className="text-gray-600">
+              {editingProduct ? 'Update your product details' : 'Create a new amazing product listing'}
+            </p>
+          </div>
           <form onSubmit={editingProduct ? handleUpdateProduct : handleAddProduct}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div className="md:col-span-2">
@@ -280,67 +285,96 @@ const SellerDashboard = () => {
       )}
 
       {/* Products List */}
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">My Products ({products.length})</h2>
+      <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold">📦 My Products</h2>
+              <p className="text-blue-100 mt-1">{products.length} products in your catalog</p>
+            </div>
+            <div className="text-right">
+              <div className="text-3xl font-bold">{products.length}</div>
+              <div className="text-sm text-blue-100">Total Products</div>
+            </div>
+          </div>
         </div>
 
         {products.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">You haven't added any products yet.</p>
+          <div className="text-center py-16 px-8">
+            <div className="w-24 h-24 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">No Products Yet</h3>
+            <p className="text-gray-600 mb-8 max-w-md mx-auto">
+              Start building your catalog by adding your first amazing product!
+            </p>
             <button
               onClick={() => setShowAddForm(true)}
-              className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
+              className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-4 rounded-xl hover:from-blue-600 hover:to-purple-600 font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
             >
-              Add Your First Product
+              🚀 Add Your First Product
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 p-4 sm:p-6">
-            {products.map((product) => (
-              <div key={product.id} className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
+            {products.map((product, index) => (
+              <div
+                key={product.id}
+                className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 group"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
                 {/* Product Image */}
-                <div className="w-full h-48 bg-gray-200 overflow-hidden">
+                <div className="relative w-full h-56 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
                   {product.imageUrl ? (
                     <img
                       src={product.imageUrl}
                       alt={product.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=No+Image';
                       }}
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-400">
-                      <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                      <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                     </div>
                   )}
+
+                  {/* Order Count Badge */}
+                  <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
+                    📦 {product.orderCount || 0} sold
+                  </div>
                 </div>
-                
+
                 {/* Product Info */}
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{product.name}</h3>
-                  <p className="text-2xl font-bold text-blue-600 mb-2">${product.price.toFixed(2)}</p>
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">{product.description || 'No description'}</p>
-                  <p className="text-sm text-blue-600 font-medium mb-4">
-                    📦 {product.orderCount || 0} orders
+                <div className="p-6">
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                    {product.name}
+                  </h3>
+                  <p className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                    ${product.price.toFixed(2)}
                   </p>
-                  
+                  <p className="text-sm text-gray-600 mb-4 line-clamp-2 leading-relaxed">
+                    {product.description || 'No description available'}
+                  </p>
+
                   {/* Action Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-2">
+                  <div className="space-y-2">
                     <button
                       onClick={() => handleEditProduct(product)}
-                      className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-sm transition-colors"
+                      className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2 px-4 rounded-lg hover:from-blue-600 hover:to-blue-700 font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
                     >
-                      Edit
+                      ✏️ Edit Product
                     </button>
                     <button
                       onClick={() => handleDeleteProduct(product.id)}
-                      className="flex-1 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 text-sm transition-colors"
+                      className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-4 rounded-lg hover:from-red-600 hover:to-red-700 font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
                     >
-                      Delete
+                      🗑️ Delete Product
                     </button>
                   </div>
                 </div>
@@ -348,6 +382,7 @@ const SellerDashboard = () => {
             ))}
           </div>
         )}
+      </div>
       </div>
     </div>
   );
