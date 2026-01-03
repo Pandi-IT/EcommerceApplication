@@ -91,33 +91,6 @@ const Products = () => {
         </div>
       ) : (
         <>
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-4 text-white text-center">
-              <div className="text-2xl font-bold">{products.length}</div>
-              <div className="text-sm opacity-90">Products</div>
-            </div>
-            <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-4 text-white text-center">
-              <div className="text-2xl font-bold">
-                {products.filter(p => p.imageUrl).length}
-              </div>
-              <div className="text-sm opacity-90">With Images</div>
-            </div>
-            <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-4 text-white text-center">
-              <div className="text-2xl font-bold">
-                ${Math.min(...products.map(p => typeof p.price === 'number' ? p.price : 0)).toFixed(2)}
-              </div>
-              <div className="text-sm opacity-90">Lowest Price</div>
-            </div>
-            <div className="bg-gradient-to-r from-pink-500 to-pink-600 rounded-xl p-4 text-white text-center">
-              <div className="text-2xl font-bold">
-                ${Math.max(...products.map(p => typeof p.price === 'number' ? p.price : 0)).toFixed(2)}
-              </div>
-              <div className="text-sm opacity-90">Highest Price</div>
-            </div>
-          </div>
-
-          {/* Products Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
             {products.map((product, index) => (
               <Link
