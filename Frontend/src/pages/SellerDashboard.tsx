@@ -165,17 +165,28 @@ const SellerDashboard = () => {
   }
 
   return (
-    <div>
-      <div className="mb-8 flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-900">Seller Dashboard</h1>
-        <button
-          onClick={() => setShowAddForm(!showAddForm)}
-          className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 text-lg font-medium"
-        >
-          {showAddForm ? 'Cancel' : 'Add New Product'}
-        </button>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-b-3xl shadow-xl mb-8">
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="text-center">
+            <h1 className="text-4xl sm:text-5xl font-bold mb-4">
+              Seller Dashboard
+            </h1>
+            <p className="text-xl opacity-90 mb-8">
+              Manage your products and grow your business
+            </p>
+            <button
+              onClick={() => setShowAddForm(true)}
+              className="bg-white text-blue-600 px-8 py-4 rounded-full hover:bg-gray-100 text-lg font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
+              ➕ Add New Product
+            </button>
+          </div>
+        </div>
       </div>
 
+      <div className="max-w-7xl mx-auto px-6 pb-16">
         {/* Add/Edit Product Form */}
       {showAddForm && (
         <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 mb-12 border border-gray-100">
@@ -382,7 +393,6 @@ const SellerDashboard = () => {
             ))}
           </div>
         )}
-      </div>
       </div>
     </div>
   );
