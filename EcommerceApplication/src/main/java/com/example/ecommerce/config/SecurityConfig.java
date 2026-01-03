@@ -31,21 +31,16 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        
-        // Get allowed origins from environment variable or use defaults
-        String allowedOrigins = System.getenv("CORS_ALLOWED_ORIGINS");
-        if (allowedOrigins != null && !allowedOrigins.isEmpty()) {
-            configuration.setAllowedOriginPatterns(java.util.Arrays.asList(allowedOrigins.split(",")));
-        } else {
-            // Default: allow localhost for development and common production patterns
-            configuration.setAllowedOriginPatterns(java.util.Arrays.asList(
-                "http://localhost:*",
-                "https://*.railway.app",
-                "https://*.vercel.app",
-                "https://*.render.com"
-            ));
-        }
-        
+
+        // Allow all localhost origins for development
+        configuration.setAllowedOriginPatterns(java.util.Arrays.asList(
+            "http://localhost:*",
+            "http://127.0.0.1:*",
+            "https://*.railway.app",
+            "https://*.vercel.app",
+            "https://*.render.com"
+        ));
+
         configuration.setAllowedMethods(java.util.Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(java.util.Arrays.asList("*"));
         configuration.setAllowCredentials(true);
@@ -60,9 +55,7 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/products").permitAll()
-                .requestMatchers("/api/products/{id:\\d+}").permitAll()
+                .requestMatchers("/api/**").permitAll()
                 .anyRequest().authenticated())
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
