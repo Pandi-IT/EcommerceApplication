@@ -2,7 +2,7 @@ services:
   - type: web
     name: ecommerce-backend
     runtime: docker
-    dockerfilePath: ./Dockerfile.render
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod

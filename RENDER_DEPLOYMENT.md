@@ -38,7 +38,7 @@ CORS_ALLOWED_ORIGINS=https://your-frontend-domain.onrender.com,https://your-fron
 3. **Branch:** main
 4. **Region:** Virginia (US East)
 5. **Root Directory:** (leave empty)
-6. **Dockerfile Path:** `./Dockerfile.render` (optional - Render will auto-detect)
+6. **Dockerfile Path:** `./Dockerfile` (optional - Render will auto-detect)
 7. **Build Context:** (leave empty)
 
 ### Environment Variables (Required):
@@ -53,7 +53,7 @@ CORS_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
 - **Health Check Path:** `/api/products`
 
 ### Docker Configuration:
-The `Dockerfile.render` handles:
+The `Dockerfile` handles:
 - ✅ Multi-stage Maven build
 - ✅ Java 21 runtime
 - ✅ Optimized image size
