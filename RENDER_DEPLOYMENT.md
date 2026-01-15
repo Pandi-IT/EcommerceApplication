@@ -18,7 +18,7 @@ Deploy your Spring Boot e-commerce backend to Render with database and automatic
 ### Step 2: Deploy Services
 The `render.yaml` file will automatically create:
 - ✅ **Web Service**: Spring Boot backend
-- ✅ **Database**: MySQL database
+- ✅ **Database**: PostgreSQL database
 - ✅ **Environment Variables**: Auto-configured
 
 ### Step 3: Configure Environment
@@ -28,6 +28,35 @@ After deployment, update these environment variables in Render:
 # In Render Dashboard → Your Service → Environment
 CORS_ALLOWED_ORIGINS=https://your-frontend-domain.onrender.com,https://your-frontend-domain.vercel.app
 ```
+
+## 🔧 Manual Deployment (If Blueprint Fails)
+
+### For Java Spring Boot Backend:
+
+1. **Service Type:** Web Service
+2. **Language:** Java
+3. **Branch:** main
+4. **Region:** Virginia (US East)
+5. **Root Directory:** (leave empty)
+6. **Build Command:**
+   ```bash
+   ./mvnw clean package -DskipTests
+   ```
+7. **Start Command:**
+   ```bash
+   java -Dserver.port=$PORT -Dspring.profiles.active=prod -jar target/*.jar
+   ```
+
+### Environment Variables (Required):
+```bash
+SPRING_PROFILES_ACTIVE=prod
+DATABASE_URL=[provided by Render database]
+JWT_SECRET=[generate a secure random string]
+CORS_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
+```
+
+### Health Check (Optional):
+- **Health Check Path:** `/api/products`
 
 ## 🔧 Manual Deployment (Alternative)
 
