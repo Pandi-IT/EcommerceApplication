@@ -23,6 +23,9 @@ public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
 
+    @org.springframework.beans.factory.annotation.Value("${cors.allowed-origins:http://localhost:3000,http://localhost:5173}")
+    private String allowedOrigins;
+
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
@@ -32,13 +35,9 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Allow specific origins for development
-        configuration.setAllowedOrigins(java.util.Arrays.asList(
-            "http://localhost",
-            "http://localhost:80",
-            "http://127.0.0.1",
-            "http://127.0.0.1:80"
-        ));
+        // Allow origins from environment variable (comma-separated)
+        String[] origins = allowedOrigins.split(",");
+        configuration.setAllowedOrigins(java.util.Arrays.asList(origins));
 
         configuration.setAllowedMethods(java.util.Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(java.util.Arrays.asList("*"));
