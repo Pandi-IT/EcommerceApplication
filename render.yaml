@@ -1,18 +1,13 @@
 services:
   - type: web
     name: ecommerce-backend
-    runtime: java
-    buildCommand: "./mvnw clean package -DskipTests"
-    startCommand: "java -Dserver.port=$PORT -Dspring.profiles.active=prod -jar target/*.jar"
+    runtime: docker
+    dockerfilePath: ./Dockerfile.render
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
-      - key: SPRING_DATASOURCE_URL
-        fromSecret: database_url
-      - key: SPRING_DATASOURCE_USERNAME
-        fromSecret: database_username
-      - key: SPRING_DATASOURCE_PASSWORD
-        fromSecret: database_password
+      - key: DATABASE_URL
+        fromDatabase: ecommerce-db
       - key: JWT_SECRET
         generateValue: true
       - key: CORS_ALLOWED_ORIGINS

@@ -31,32 +31,34 @@ CORS_ALLOWED_ORIGINS=https://your-frontend-domain.onrender.com,https://your-fron
 
 ## 🔧 Manual Deployment (If Blueprint Fails)
 
-### For Java Spring Boot Backend:
+### For Java Spring Boot Backend (Using Docker):
 
 1. **Service Type:** Web Service
-2. **Language:** Java
+2. **Language:** **Docker**
 3. **Branch:** main
 4. **Region:** Virginia (US East)
 5. **Root Directory:** (leave empty)
-6. **Build Command:**
-   ```bash
-   ./mvnw clean package -DskipTests
-   ```
-7. **Start Command:**
-   ```bash
-   java -Dserver.port=$PORT -Dspring.profiles.active=prod -jar target/*.jar
-   ```
+6. **Dockerfile Path:** `./Dockerfile.render` (optional - Render will auto-detect)
+7. **Build Context:** (leave empty)
 
 ### Environment Variables (Required):
 ```bash
 SPRING_PROFILES_ACTIVE=prod
 DATABASE_URL=[provided by Render database]
-JWT_SECRET=[generate a secure random string]
+JWT_SECRET=[generate a secure random string, at least 32 characters]
 CORS_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
 ```
 
 ### Health Check (Optional):
 - **Health Check Path:** `/api/products`
+
+### Docker Configuration:
+The `Dockerfile.render` handles:
+- ✅ Multi-stage Maven build
+- ✅ Java 21 runtime
+- ✅ Optimized image size
+- ✅ Health checks
+- ✅ Production configuration
 
 ## 🔧 Manual Deployment (Alternative)
 
