@@ -9,8 +9,8 @@ COPY EcommerceApplication/pom.xml ./
 COPY EcommerceApplication/.mvn/ .mvn/
 COPY EcommerceApplication/mvnw ./
 
-# Download dependencies (cached if pom.xml unchanged)
-RUN ./mvnw dependency:go-offline -B
+# Make mvnw executable and download dependencies (cached if pom.xml unchanged)
+RUN chmod +x mvnw && ./mvnw dependency:go-offline -B
 
 # Copy source code
 COPY EcommerceApplication/src ./src/
