@@ -7,7 +7,7 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: DATABASE_URL
-        fromDatabase: ecommerce-db
+        value: postgresql://ecommerce_db_32e3_user:tKoU66DOWqQKicZn3HhlLiQ3DBfBdzcI@dpg-d5ka7qe3jp1c73ejct00-a/ecommerce_db_32e3
       - key: JWT_SECRET
         generateValue: true
       - key: CORS_ALLOWED_ORIGINS
