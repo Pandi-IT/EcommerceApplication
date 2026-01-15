@@ -155,3 +155,5 @@ Write-Host "🔗 Useful Commands:" -ForegroundColor Yellow
 Write-Host "   Check services: aws ecs describe-services --cluster ecommerce-cluster --region $AwsRegion" -ForegroundColor White
 Write-Host "   View logs: aws logs tail /ecs/ecommerce-backend --region $AwsRegion" -ForegroundColor White
 Write-Host "   Scale service: aws ecs update-service --cluster ecommerce-cluster --service SERVICE_NAME --desired-count 2 --region $AwsRegion" -ForegroundColor White
+
+
