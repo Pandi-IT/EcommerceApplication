@@ -22,6 +22,7 @@ databases:
   - name: ecommerce-db
     databaseName: ecommerce_db
     user: ecommerce_user
+    databaseType: mysql
     plan: starter
     # Note: Render uses PostgreSQL by default
     # If you prefer MySQL, use an external provider like PlanetScale
