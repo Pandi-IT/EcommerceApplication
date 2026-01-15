@@ -6,6 +6,16 @@ services:
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
+      - key: PGHOST
+        value: dpg-d5ka7qe3jp1c73ejct00-a
+      - key: PGPORT
+        value: 5432
+      - key: PGDATABASE
+        value: ecommerce_db_32e3
+      - key: PGUSER
+        value: ecommerce_db_32e3_user
+      - key: PGPASSWORD
+        value: tKoU66DOWqQKicZn3HhlLiQ3DBfBdzcI
       - key: JWT_SECRET
         generateValue: true
       - key: CORS_ALLOWED_ORIGINS
